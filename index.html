@@ -52,14 +52,113 @@ button,summary,label,p,h1,h2,h3,h4{overflow-wrap:anywhere}
 .check input{min-width:1.25rem;min-height:1.25rem}
 @media(max-width:760px){.steps{grid-template-columns:repeat(5,minmax(0,1fr))}.step{width:100%}.font-tools{gap:8px}.font-tools .modes{width:100%;display:flex}.font-tools button{flex:1;padding:9px 6px}.bottom{gap:10px}.bottom .btn{flex:1}.bottom .counter{order:3;width:100%;text-align:center}}
 @media print{.font-tools{display:none}}
+
+/* Device-specific reading layouts */
+@media screen{
+  .shell,.bar,body>footer{max-width:1320px}
+  .reading-toolbar{display:grid;grid-template-columns:minmax(0,1fr);gap:0 24px;align-items:center}
+  .reading-toolbar .font-tools{margin-bottom:16px}
+  .reading-toolbar .audience{margin-bottom:16px}
+  .layout{align-items:start}
+  .main,.panel,.steps,.choices,.money,.reference-group{min-width:0}
+  .choice,.btn,.modes button{min-height:48px}
+  .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr))}
+  .choice{width:100%;text-align:center}
+  .money{grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr))}
+  .map-wrap{padding:28px}
+  .reference-library{max-width:1120px}
+  .reference-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 28px}
+  .reference-group>h3{grid-column:1/-1}
+  .evidence-card{align-self:start}
+  .reference-group .evidence-card{border-bottom:1px solid var(--line)}
+  .reference-group .evidence-card:last-child{border-bottom:1px solid var(--line)}
+  .font-tools .modes,.audience .modes{max-width:100%}
+}
+@media screen and (min-width:1100px){
+  .shell{padding:44px 40px}
+  .bar{padding:20px 40px}
+  .intro{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:end}
+  .intro>.modes{max-width:100%}
+  .reading-toolbar{grid-template-columns:minmax(0,0.85fr) minmax(0,1.15fr)}
+  .reading-toolbar .font-tools{border:0;padding:0;gap:8px 12px}
+  .reading-toolbar .audience{gap:8px 12px}
+  .reading-toolbar .audience>span{font-size:0.875rem}
+  .layout{grid-template-columns:minmax(210px,240px) minmax(0,1fr);gap:28px}
+  .steps{position:sticky;top:20px;display:flex;flex-direction:column;gap:10px}
+  .step{padding:16px 14px;font-size:0.9375rem;align-items:center}
+  .step small{display:block}
+  .panel{padding:32px 36px}
+  .evidence-section{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}
+  .evidence-section>.chapter,.evidence-section>.note{grid-column:1/-1}
+  .evidence-section>.evidence-card{height:100%}
+  html[data-text-size="extra"] .intro{grid-template-columns:1fr}
+  html[data-text-size="extra"] .intro>.modes{justify-self:start}
+  html[data-text-size="extra"] .layout{grid-template-columns:260px minmax(0,1fr)}
+  html[data-text-size="extra"] .evidence-section{grid-template-columns:1fr}
+}
+@media screen and (min-width:600px) and (max-width:1099px){
+  .shell{padding:32px 28px}
+  .bar{padding:18px 28px}
+  .intro{display:block;margin-bottom:26px}
+  .intro>.modes{display:flex;width:100%;margin-top:22px}
+  .intro>.modes button{flex:1;font-size:1rem;padding:12px 10px}
+  .reading-toolbar{grid-template-columns:minmax(0,1fr);gap:0}
+  .font-tools{justify-content:space-between;padding:14px 0}
+  .font-tools .modes{width:auto;margin:0}
+  .font-tools button{padding:10px 22px}
+  .audience{gap:12px;margin-bottom:16px}
+  .layout{grid-template-columns:minmax(0,1fr);gap:22px}
+  .steps{position:static;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .step{width:100%;min-height:84px;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:6px;padding:10px 6px;font-size:0.875rem}
+  .step small{display:none}
+  .panel{padding:28px 30px;border-radius:16px}
+  .panel h2{font-size:1.5625rem}
+  .intro p{font-size:1rem;max-width:760px}
+  .bottom{flex-wrap:nowrap}
+  .bottom .btn{flex:initial}
+  .bottom .counter{order:initial;width:auto}
+  .reference-group{padding:24px}
+  .map-wrap{padding:24px}
+  footer{padding:24px 28px;display:flex;flex-wrap:wrap}
+}
+@media screen and (max-width:899px){
+  html[data-text-size="extra"] .reference-group{grid-template-columns:1fr}
+  html[data-text-size="extra"] .money{grid-template-columns:1fr}
+}
+@media screen and (max-width:599px){
+  .shell{padding:24px 16px}
+  .bar{padding:16px}
+  .intro{display:block}
+  .intro>.modes{width:100%;display:flex;margin-top:18px}
+  .intro>.modes button{flex:1;font-size:0.8125rem;padding:10px 4px}
+  .reading-toolbar{display:block}
+  .font-tools{gap:8px}
+  .font-tools .modes{display:flex;width:100%}
+  .font-tools button{flex:1;padding:9px 6px}
+  .audience{gap:10px}
+  .audience .modes{display:flex;margin:0}
+  .layout{grid-template-columns:minmax(0,1fr);gap:16px}
+  .steps{position:static;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+  .step{width:100%;font-size:0.75rem;padding:8px 2px;flex-direction:column;text-align:center;gap:6px}
+  .step small{display:none}
+  .panel{padding:22px 16px;border-radius:12px}
+  .panel h2{font-size:1.4375rem}
+  .money,.reference-group{grid-template-columns:1fr}
+  .reference-group{padding:20px 16px;gap:0}
+  .map-wrap{padding:18px 10px}
+  .bottom{flex-wrap:wrap}
+  .bottom .btn{flex:1}
+  .bottom .counter{order:3;width:100%;text-align:center}
+}
+
 </style>
 </head>
 <body>
 <header><div class="bar"><div class="brand">俊德｜傳承提問室</div><div class="tag">房產傳承 · 保險需求盤點</div></div></header>
 <main class="shell">
 <div class="intro"><div><div class="eyebrow">FIVE QUESTIONS FOR A THOUGHTFUL LEGACY</div><h1>先問房子，再談安排</h1><p>從房產怎麼來、想留給誰，一步步看見家人的期待與現金缺口</p></div><div class="modes" aria-label="瀏覽方式"><button id="guided-btn" aria-pressed="true">逐步提問</button><button id="map-btn" aria-pressed="false">完整心智圖</button><button id="evidence-btn" aria-pressed="false">資料佐證</button></div></div>
-<div class="font-tools" role="group" aria-label="字體大小"><span>字體大小</span><div class="modes"><button type="button" data-text-size="standard" aria-pressed="true">標準</button><button type="button" data-text-size="large" aria-pressed="false">大字</button><button type="button" data-text-size="extra" aria-pressed="false">特大字</button></div><span class="sr-only" id="font-status" role="status" aria-live="polite"></span></div>
-<div class="audience"><span>使用方式</span><div class="modes"><button id="client-role" aria-pressed="true">客戶盤點</button><button id="advisor-role" aria-pressed="false">業務引導</button></div><button class="btn" id="share-link">複製此模式連結</button><span id="share-state" role="status"></span></div><p class="note" id="role-note"></p><section id="guided"><div class="layout"><nav class="steps" aria-label="傳承五問"></nav><div class="main"><div class="panel" id="panel"></div><div class="bottom"><button class="btn" id="prev">上一步</button><span class="counter" id="counter"></span><button class="btn primary" id="next">下一個問題 →</button></div></div></div></section>
+<div class="reading-toolbar"><div class="font-tools" role="group" aria-label="字體大小"><span>字體大小</span><div class="modes"><button type="button" data-text-size="standard" aria-pressed="true">標準</button><button type="button" data-text-size="large" aria-pressed="false">大字</button><button type="button" data-text-size="extra" aria-pressed="false">特大字</button></div><span class="sr-only" id="font-status" role="status" aria-live="polite"></span></div>
+<div class="audience"><span>使用方式</span><div class="modes"><button id="client-role" aria-pressed="true">客戶盤點</button><button id="advisor-role" aria-pressed="false">業務引導</button></div><button class="btn" id="share-link">複製此模式連結</button><span id="share-state" role="status"></span></div></div><p class="note" id="role-note"></p><section id="guided"><div class="layout"><nav class="steps" aria-label="傳承五問"></nav><div class="main"><div class="panel" id="panel"></div><div class="bottom"><button class="btn" id="prev">上一步</button><span class="counter" id="counter"></span><button class="btn primary" id="next">下一個問題 →</button></div></div></div></section>
 <section id="map" hidden><p class="map-intro">點開各個分支，查看稅務判斷、延伸追問與保險切入方向</p><div class="map-wrap"><div id="property-map">
   <style>
     #property-map{color:var(--foreground);padding:8px 0}
