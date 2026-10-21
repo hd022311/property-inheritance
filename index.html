@@ -10,12 +10,33 @@
 @media(max-width:760px){.bar{padding:16px 20px}.tag{font-size:11px}.shell{padding:28px 18px}.intro{display:block;margin-bottom:24px}.modes{display:inline-flex;margin-top:16px}.layout{grid-template-columns:1fr;gap:16px}.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.step{padding:8px 2px;flex-direction:column;gap:6px;justify-content:start;text-align:center;font-size:12px}.step small{display:none}.num{width:26px;height:26px}.panel{padding:22px 18px;border-radius:12px}.panel h2{font-size:23px}.prompt{padding:14px}.choice{padding:9px 12px}.money{grid-template-columns:1fr}.map-wrap{padding:18px 12px}footer{padding:22px 18px;display:block}footer span{display:block;margin-top:12px}.intro p{font-size:14px}}
 @media print{header,.modes,.steps,.bottom,.actions,.source,footer,.map-intro{display:none!important}.shell{padding:0;max-width:none}.layout{display:block}.panel{border:0;padding:0}.intro{margin-bottom:16px}.summary-box pre{font-size:12px}.panel> :not(.summary-box){display:none}.panel>.summary-box{display:block;border:0}.map-wrap{border:0}details{break-inside:avoid}}
 .audience{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 12px}.audience>span{font-size:13px}.audience .modes{margin-top:0}.audience .btn{font-size:13px}body.client #property-map .opportunity{display:none}body.client #property-map .root .text-small{display:none}#role-note{margin-bottom:22px}@media print{.audience,#role-note{display:none}}
+
+.evidence-section{margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
+.evidence-card{padding:20px 0;border-bottom:1px solid var(--line);min-width:0;overflow-wrap:anywhere}
+.evidence-meta{display:flex;gap:7px 10px;flex-wrap:wrap;align-items:center;font-size:12px;color:#626874}
+.evidence-type{background:#edf0f6;color:var(--navy);padding:2px 8px;border-radius:4px}
+.evidence-card h4{font-size:16px;line-height:1.6;margin:10px 0 8px;font-weight:650}
+.evidence-card p{font-size:14px;margin:8px 0}
+.evidence-point{color:var(--navy)}
+.evidence-card details{margin-top:10px;border-top:0}
+.evidence-card summary{font-size:13px;min-height:44px;color:#73594b;padding:10px 0}
+.evidence-limit{color:#626874}
+.evidence-question{padding-left:12px;border-left:2px solid var(--coral)}
+.reference-library{max-width:880px;margin:auto}
+.evidence-intro{margin-bottom:28px}
+.evidence-intro h2{font-size:28px;margin:8px 0}
+.reference-group{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin:24px 0}
+.reference-group h3{font-size:20px;margin:0 0 8px}
+.reference-group .evidence-card:last-child{border-bottom:0}
+@media(max-width:760px){.intro .modes{display:flex;width:100%}.intro .modes button{flex:1;padding:8px 6px;font-size:13px}.reference-group{padding:20px 16px}.reference-group h3{font-size:18px}.evidence-intro h2{font-size:25px}}
+@media print{.evidence-section{display:none}}
+
 </style>
 </head>
 <body>
 <header><div class="bar"><div class="brand">俊德｜傳承提問室</div><div class="tag">房產傳承 · 保險需求盤點</div></div></header>
 <main class="shell">
-<div class="intro"><div><div class="eyebrow">FIVE QUESTIONS FOR A THOUGHTFUL LEGACY</div><h1>先問房子，再談安排</h1><p>從房產怎麼來、想留給誰，一步步看見家人的期待與現金缺口</p></div><div class="modes" aria-label="瀏覽方式"><button id="guided-btn" aria-pressed="true">逐步提問</button><button id="map-btn" aria-pressed="false">完整心智圖</button></div></div>
+<div class="intro"><div><div class="eyebrow">FIVE QUESTIONS FOR A THOUGHTFUL LEGACY</div><h1>先問房子，再談安排</h1><p>從房產怎麼來、想留給誰，一步步看見家人的期待與現金缺口</p></div><div class="modes" aria-label="瀏覽方式"><button id="guided-btn" aria-pressed="true">逐步提問</button><button id="map-btn" aria-pressed="false">完整心智圖</button><button id="evidence-btn" aria-pressed="false">資料佐證</button></div></div>
 <div class="audience"><span>使用方式</span><div class="modes"><button id="client-role" aria-pressed="true">客戶盤點</button><button id="advisor-role" aria-pressed="false">業務引導</button></div><button class="btn" id="share-link">複製此模式連結</button><span id="share-state" role="status"></span></div><p class="note" id="role-note"></p><section id="guided"><div class="layout"><nav class="steps" aria-label="傳承五問"></nav><div class="main"><div class="panel" id="panel"></div><div class="bottom"><button class="btn" id="prev">上一步</button><span class="counter" id="counter"></span><button class="btn primary" id="next">下一個問題 →</button></div></div></div></section>
 <section id="map" hidden><p class="map-intro">點開各個分支，查看稅務判斷、延伸追問與保險切入方向</p><div class="map-wrap"><div id="property-map">
   <style>
@@ -162,8 +183,10 @@
   </details>
 </div>
 </div></section>
+<section id="evidence-panel" class="reference-library" hidden></section>
 </main>
 <footer><p>供拜訪提問與教育討論使用｜一般住宅房地以115年規劃情境說明，實際稅負須依取得原因、日期及持分判斷，保險依個別核保與契約條件評估</p><span>富邦俊德 · 2026</span></footer>
+<script src="evidence.js"></script>
 <script>
 let advisor=new URLSearchParams(location.search).get('role')==='advisor';
 const S={step:0,owner:'',method:'',period:'',spouse:'',timing:'',recipient:'',allocation:'',risks:[],tax:'',debt:'',living:'',compensation:'',cash:'',cover:''};
@@ -183,7 +206,7 @@ if(S.step===1){h+='<h2>現在過戶，還是百年後繼承？</h2>'+prompt('您
 if(S.step===2){h+='<h2>房子最後希望給誰？</h2>'+prompt('是想留給真正需要住的人，還是讓孩子們一起繼承？');h+=choices('recipient','希望如何安排房子？',[['one','特定一位家人'],['spouse','先照顧配偶'],['shared','大家共同持有'],['undecided','還沒決定']]);if(S.recipient==='one')h+=note('接著問：是因為自住、照顧父母，還是接班？其他家人如何安排？');if(S.recipient==='spouse')h+=note('接著問：除了有地方住，另一半的生活與醫療現金夠嗎？');h+='<details '+(S.recipient==='shared'?'open':'')+'><summary>共同繼承：六個可能需要先談的情境</summary>';const risks=[['family','各自成家','兄弟姊妹會一直住在一起嗎？有了自己的家庭後，想法還會相同嗎？'],['use','只有一人住','其他人是否同意？要不要約定使用方式或補償？'],['dispute','占用爭議','如果有人不同意，會不會為搬離或相當租金的請求而起爭執？'],['repair','修繕與整修','漏水誰修？費用怎麼分？住的人決定，還是大家協商？'],['sell','有人想賣','一個想賣、一個想留，誰有錢承接？談不攏怎麼處理？'],['next','傳到下一代','有人先過世，持分再傳下去，之後要跟多少人協商？']];h+=risks.map(([v,t,d])=>`<label class="check"><input type="checkbox" data-risk="${v}" ${S.risks.includes(v)?'checked':''}><span>${t}<small>${d}</small></span></label>`).join('');h+=note('勾選想進一步討論的情境；使用補償或相當租金能否請求，須看約定、占有依據與個案事實')+'</details>';h+=branch('如果房子留給需要的人，其他家人可以用什麼方式安排？','評估房產與現金分配、配偶生活保障；需要長期照顧的家人，可進一步討論分期給付或保險金信託')}
 if(S.step===3){h+='<h2>沒拿房子的家人，要拿什麼？</h2>'+prompt('如果一個孩子拿房子，其他孩子您希望怎麼安排？');h+=choices('allocation','預計用什麼方式安排？',[['cash','現有現金或其他資產'],['insurance',advisor?'想評估保險金安排':'想了解保障安排'],['buyout','拿房的人支付對價'],['unsure','還沒有準備']]);h+='<div class="result"><strong>可以繼續問的三句話</strong><p>① 您心中的公平，是每人金額一樣，還是照各自需要？</p><p>② 分別希望安排多少？這筆錢目前準備在哪裡？</p><p>③ 如果拿房的人需要買下其他持分，他有能力支付嗎？</p></div>';h+=branch('如果現有現金不夠，這個分配計畫還能完成嗎？','評估壽險作為分配資金的一部分，搭配遺囑與整體法律安排檢視，確認受益人與資金用途符合原先心意')}
 if(S.step===4){h+='<h2>需要的現金，準備在哪裡？</h2>'+prompt('房子留下來時，稅費、貸款、家人生活和分配資金，各需要多少？');h+=note('以下均以「萬元」填寫；用途避免重複計算，僅盤點當時實際可動用的資金');h+='<div class="money">'+money('tax','稅金與處理費用')+money('debt','需要清償的貸款')+money('living','家人生活預備金')+money('compensation','其他家人分配或持分對價')+money('cash','可用於以上用途的現金')+money('cover','既有保單可用的身故給付')+'</div>';h+='<div class="result" aria-live="polite"><strong>初步現金缺口</strong><div class="amount" id="gap">尚待估算</div><p id="gap-note">填完六項後顯示估算；確認沒有的項目填0</p></div>';h+=branch('如果不希望家人臨時湊錢或被迫賣房，我們先看哪一筆資金最需要補足？','依缺口、時間、健康與可負擔保費，評估保障方案，並確認誰能領取、何時能用及是否需要分期安排');h+='<section class="summary-box"><div class="chapter">本次提問摘要</div><pre id="summary"></pre><div class="actions"><button class="btn primary" id="copy">複製討論摘要</button><button class="btn" id="print">列印摘要</button></div><div id="copy-status" class="status" role="status"></div></section>'}
-h+='<details class="source"><summary>稅務資料與官方依據</summary><ul><li><a href="https://www.dot.gov.tw/singlehtml/ch_421?cntId=dot_201708040002_421" target="_blank" rel="noopener">財政部賦稅署｜房地新舊制判斷</a></li><li><a href="https://www.ntbt.gov.tw/singlehtml/41ae3594197f4f69b47753ce08188516?cntId=e9f361a470e74d078596eb8446e5a2c3" target="_blank" rel="noopener">臺北國稅局｜連續繼承須分持分判斷</a></li><li><a href="https://www.etax.nat.gov.tw/etwmain/tax-info/understanding/tax-saving-manual/national/estate-and-gift-tax/ZQmGGWr" target="_blank" rel="noopener">財政部｜贈與與繼承移轉稅費</a></li><li><a href="https://www.etax.nat.gov.tw/etwmain/announcement/news/zKKOWk6" target="_blank" rel="noopener">財政部｜贈與不適用土地增值稅自用優惠</a></li></ul></details>';
+h+=evidenceForStep(S.step);
 $('panel').innerHTML=h;$('counter').textContent=`${S.step+1} / 5`;$('prev').disabled=S.step===0;$('next').hidden=S.step===4;
 document.querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>{S[b.dataset.key]=b.dataset.value;if(b.dataset.key==='method'){S.period='';S.spouse=''}render()});document.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>go(Number(b.dataset.step)));document.querySelectorAll('[data-risk]').forEach(b=>b.onchange=()=>{S.risks=b.checked?[...new Set([...S.risks,b.dataset.risk])]:S.risks.filter(v=>v!==b.dataset.risk)});document.querySelectorAll('[data-money]').forEach(i=>i.oninput=()=>{S[i.dataset.money]=i.value;updateSummary()});if(S.step===4){updateSummary();$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(summaryText());$('copy-status').textContent='已複製，可貼到拜訪紀錄或訊息中'}catch{$('copy-status').textContent='請選取上方摘要文字後複製'}};$('print').onclick=()=>window.print()}}
 function go(n){S.step=Math.max(0,Math.min(4,n));render();$('guided').scrollIntoView({behavior:'smooth',block:'start'})}
@@ -191,9 +214,10 @@ const moneyKeys=['tax','debt','living','compensation','cash','cover'];
 function gap(){if(!moneyKeys.every(k=>S[k]!==''&&Number.isFinite(Number(S[k]))&&Number(S[k])>=0))return null;return Math.max(0,Number(S.tax)+Number(S.debt)+Number(S.living)+Number(S.compensation)-Number(S.cash)-Number(S.cover))}
 function summaryText(){const names={self:'自己的',parents:'父母的',joint:'共同持有',buy:'買賣取得',gift:'贈與取得',inherit:'繼承',before:'104／12／31以前',after:'105／1／1起',unknown:'待確認',compare:'比較贈與與繼承',one:'特定家人',spouse:'先照顧配偶',shared:'共同持有',undecided:'待決定',cash:'現有資產',insurance:'評估保險金',buyout:'支付持分對價',unsure:'尚未準備'};const n=k=>names[S[k]]||'尚未討論';const r={family:'各自成家',use:'一人居住',dispute:'占用爭議',repair:'修繕費用',sell:'出售意見不同',next:'下一代加入'};let g=gap();return `房產傳承五問｜討論摘要\n\n① 房產：${n('owner')}／${n('method')}\n取得時間：${n('period')}${S.method==='inherit'?'（被繼承人取得日）':''}\n稅制線索：${taxResult()}\n\n② 移轉想法：${S.timing==='gift'?'現在贈與':S.timing==='inherit'?'未來繼承':n('timing')}\n③ 房產安排：${n('recipient')}\n想討論的共有情境：${S.risks.length?S.risks.map(v=>r[v]).join('、'):'尚未勾選'}\n④ 其他家人：${n('allocation')}\n\n⑤ 資金盤點（萬元）\n稅費：${S.tax||'待估'}｜貸款：${S.debt||'待估'}\n生活資金：${S.living||'待估'}｜分配資金：${S.compensation||'待估'}\n可用現金：${S.cash||'待估'}｜可用身故給付：${S.cover||'待估'}\n初步缺口：${g===null?'尚待完整估算':g.toLocaleString('zh-TW',{maximumFractionDigits:2})+'萬元'}\n\n下一步：確認稅費與可動用資金，再依家庭目標、健康與預算評估保障及法律安排\n\n本摘要為初步盤點，非稅額試算或保險承保承諾`}
 function updateSummary(){const g=gap();$('gap').textContent=g===null?'尚待估算':g.toLocaleString('zh-TW',{maximumFractionDigits:2})+' 萬元';$('gap-note').textContent=g===null?'填完六項後顯示估算；確認沒有的項目填0':g===0?'依目前輸入未見現金缺口，仍需確認資金用途、領取人與可用時間':'這是依目前輸入估算的差額，可作為進一步討論保障需求的起點';$('summary').textContent=summaryText()}
-function mode(map){$('guided').hidden=map;$('map').hidden=!map;$('guided-btn').setAttribute('aria-pressed',String(!map));$('map-btn').setAttribute('aria-pressed',String(map))}
+function mode(view){const name=view===true?'map':view===false?'guided':view;['guided','map','evidence-panel'].forEach(id=>$(id).hidden=id!==name);[['guided-btn','guided'],['map-btn','map'],['evidence-btn','evidence-panel']].forEach(([id,panel])=>$(id).setAttribute('aria-pressed',String(panel===name)))}
 function setRole(v){advisor=v;document.body.classList.toggle('client',!v);$('client-role').setAttribute('aria-pressed',String(!v));$('advisor-role').setAttribute('aria-pressed',String(v));$('role-note').textContent=v?'業務引導：每題附延伸追問與保險需求方向，可搭配客戶一起討論｜填答僅留在本次頁面，不自動回傳':'客戶盤點：依自己的想法作答，最後可複製摘要與顧問討論｜填答僅留在本次頁面，不自動回傳';render()}
 $('client-role').onclick=()=>setRole(false);$('advisor-role').onclick=()=>setRole(true);$('share-link').onclick=async()=>{const u=new URL(location.href);u.search='';u.searchParams.set('role',advisor?'advisor':'client');u.hash='';try{await navigator.clipboard.writeText(u.toString());$('share-state').textContent='模式連結已複製，不包含填答內容'}catch{$('share-state').textContent=u.toString()}};setRole(advisor);
+$('evidence-panel').innerHTML=evidenceLibrary();$('evidence-btn').onclick=()=>mode('evidence-panel');
 $('guided-btn').onclick=()=>mode(false);$('map-btn').onclick=()=>mode(true);$('prev').onclick=()=>go(S.step-1);$('next').onclick=()=>go(S.step+1);render();
 </script>
 </body></html>
